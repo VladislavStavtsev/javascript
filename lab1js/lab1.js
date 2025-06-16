@@ -4,12 +4,12 @@ const resultTextarea = document.getElementById('result');
 
 form.addEventListener('submit', function (event) {
     event.preventDefault();
-
+console.log(age);
+    console.log(gender);
     const age = parseInt(document.getElementById('age').value);
     const gender = document.querySelector('input[name="gender"]:checked').value;
     let message = "";
-    console.log(age);
-    console.log(gender);
+    
     if (isNaN(age)) {
         message = "Введите корректный возраст.";
     } else if (age >= 0 && age <= 17) {
