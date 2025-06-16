@@ -10,7 +10,7 @@
    <p>
     <label>
      Введите количество строк:
-     <input id="input" required>
+     <input id="input" type="number" required>
     </label>
    </p>
 
@@ -22,11 +22,10 @@
 
    f.addEventListener('submit', draw);
 
-   function draw() {
-
+   function draw(event) {
        event.preventDefault();
 
-       let n = input.value;
+       let n = parseInt(input.value);
 
        for (let i = 0; i < n; i++) {
            switch (i % 5) {
@@ -51,7 +50,6 @@
                    'dog', 'cat', 'cat');
            }  
        }
-
    }
   </script>
   <noscript>Страница может работать некорректно, т.к. отключена поддержка JS.</noscript>
