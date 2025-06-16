@@ -24,8 +24,8 @@ form.addEventListener('submit', function (event) {
     ) {
         message = "Скоро пенсия!";
     } else if (
-        (gender === "male" && age > 65) ||
-        (gender === "female" && age > 60)
+        (gender === "male" && age >= 65) ||
+        (gender === "female" && age >= 60)
     ) {
         message = "Вам пора на пенсию";
     } else {
