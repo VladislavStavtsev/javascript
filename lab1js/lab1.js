@@ -20,8 +20,8 @@ form.addEventListener('submit', function (event) {
     ) {
         message = "Вам ещё работать и работать";
     } else if (
-        (gender === "male" && age >= 60 && age < 65) ||
-        (gender === "female" && age >= 55 && age < 60)
+        (gender === "male" && age >= 60 && age <= 64) ||
+        (gender === "female" && age >= 55 && age <= 59)
     ) {
         message = "Скоро пенсия!";
     } else if (
