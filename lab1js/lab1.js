@@ -8,7 +8,7 @@ form.addEventListener('submit', function (event) {
     const age = parseInt(document.getElementById('age').value);
     const gender = document.querySelector('input[name="gender"]:checked').value;
     let message = "";
-
+    console.log("Введённые данные:", {age, gender});
     if (isNaN(age)) {
         message = "Введите корректный возраст.";
     } else if (age >= 0 && age <= 17) {
