@@ -1,90 +1,169 @@
-// 1. Функция getDecimal(num)
-function getDecimal(num) {
-    const decimalPart = Math.abs(num) % 1;
-    return decimalPart === 0 ? 0 : decimalPart;
+import {fib} from '../lab2/lab2.js';
+
+/*
+ * Возвращает дробную часть числа, т.е. какое положительное число, меньшее 1, необходимо вычесть, чтобы получить целое число.
+ *
+ * @param {number} num - исходное число.
+ * @return {number} дробную часть num.
+*/
+export function getDecimal(num) {
+
+    return Number((num - Math.floor(num)).toFixed(15));
+
 }
 
-// 2. Функция normalizeUrl(url)
-function normalizeUrl(url) {
-    if (url.startsWith('http://')) {
-        return 'https://' + url.slice(7);
-    } else if (url.startsWith('https://')) {
-        return url;
-    } else {
-        return 'https://' + url;
+/*
+ * Нормализует ссылку: заменяет http:// на https:// или добавляет https:// в начало.
+ *
+ * @param {string} url - ссылка.
+ * @return {string} нормализованную url.
+*/
+export function normalizeUrl(url) {
+    
+    url = url.replace('http://', 'https://');
+
+    if (!url.startsWith('https://')) {
+        url = 'https://' + url;
     }
+
+    return url;
 }
 
-// 3. Функция checkSpam(str)
-function checkSpam(str) {
-    const lowerStr = str.toLowerCase();
-    return lowerStr.includes('viagra') || lowerStr.includes('xxx');
+/*
+ * Проверяет, есть ли в строке спам: подстроки "XXX" или "viagra" в любом регистре.
+ *
+ * @param {string} str - исходная строка.
+ * @return {boolean} true, если в str есть спам, иначе false.
+*/
+export function checkSpam(str) {
+
+    str = str.toLowerCase();
+    return str.includes('xxx') || str.includes('viagra') ? true : false;
+
 }
 
-// 4. Функция truncate(str, maxlength)
-function truncate(str, maxlength) {
-    if (str.length > maxlength) {
-        return str.slice(0, maxlength - 1) + '\u2026';
-    } else {
+/*
+ * Сокращает строку до указанного количества символов.
+ *
+ * @param {string} str - исходная строка.
+ * @param {number} maxlength - максимальное число символов в возвращаемой строке.
+ * @return {string} копию str, сокращённую до maxlength символов с троеточием в виде последнего символа, если её длина превышает maxlength, иначе просто str. 
+*/
+export function truncate(str, maxlength) {
+
+    if (str.length <= maxlength) {
         return str;
     }
+
+    return str.slice(0, maxlength - 1) + '\u2026';
+
 }
 
-// 5. Функция camelize(str)
-function camelize(str) {
-    return str
-        .split('-')
-        .map((word, index) => index === 0 ? word : word[0].toUpperCase() + word.slice(1))
-        .join('');
+/*
+ * Переводит строку в "верблюжий стиль", удаляя дефисы и переводя буквы в этих местах в верхний регистр.
+ *
+ * @param {string} str - исходная строка.
+ * @return {string} str в "верблюжьем стиле".
+*/
+export function camelize(str) {
+
+    str = str.split('-');
+    return str[0] + str.slice(1).map(ucFirst).join('');
+
 }
 
-// Функция ucFirst(str) (для использования в camelize, но уже реализована в camelize)
+/*
+ * Возвращает строку с первым символом в верхнем регистре.
+ *
+ * @param {string} str - исходная строка.
+ * @return {string} str с первым символом в верхнем регистре.
+*/
 function ucFirst(str) {
-    if (!str) return str;
-    return str[0].toUpperCase() + str.slice(1);
-}
 
-// 6. Функция fibs(n) 
-function fibs(n) {
-    const result = [];
-    for (let i = 0; i < n; i++) {
-        result.push(fib(i));
+    if (str) {
+        str = str[0].toUpperCase() + str.slice(1);
     }
-    return result;
+
+    return str;
+
 }
 
-// 7. Функция arrReverseSorted(arr)
-function arrReverseSorted(arr) {
-    return [...arr].sort((a, b) => b - a);
+/*
+ * Возвращает массив из чисел Фибоначчи, начиная с нулевого.
+ * Считается, что нулевой элемент равен 0, а первый - 1.
+ *
+ * @param {number} n - натуральное число, количество элементов в массиве.
+ * @return {null|Array.BigInt} null, если n ненатуральное, иначе массив чисел Фибоначчи.
+*/
+export function fibs(n) {
+
+    if (n <= 0 || Math.floor(n) - n >= Number.EPSILON) {
+        return null;
+    }
+
+    let arr = [];
+    for (let i = 0; i < n; i++) {
+        arr[i] = fib(i);
+    }
+
+    return arr;
+
 }
 
-// 8. Функция unique(arr)
-function unique(arr) {
-    return [...new Set(arr)];
+/*
+ * Возвращает отсортированную по убыванию копию массива чисел.
+ *
+ * @param {Array.number} arr - массив чисел.
+ * @return {Array.number} отсортированную по убыванию копию arr.
+*/
+export function arrReverseSorted(arr) {
+
+    let arrcopy = [];
+    Object.assign(arrcopy, arr);
+
+    return arrcopy.sort(backwardsSort);
+
 }
 
+/*
+ * Критерий сортировки чисел по убыванию.
+ *
+ * @param {number} a - первое число.
+ * @param {number} b - второе число.
+ * @return {number} 1, если a < b, 0, если a == b, и -1, если a > b.
+*/
+function backwardsSort(a, b) {
 
-// Примеры использования (для проверки):
+    if (a < b) {
+        return 1;
+    }
+    if (a == b) {
+        return 0;
+    }
+    if (a > b) {
+        return -1;
+    }
 
-console.log("getDecimal(1.23):", getDecimal(1.23));
-console.log("getDecimal(-1.23):", getDecimal(-1.23));
-console.log("getDecimal(1):", getDecimal(1));
+}
 
-console.log("normalizeUrl('yandex.ru'):", normalizeUrl('yandex.ru'));
-console.log("normalizeUrl('http://yandex.ru'):", normalizeUrl('http://yandex.ru'));
-console.log("normalizeUrl('https://yandex.ru'):", normalizeUrl('https://yandex.ru'));
-console.log("normalizeUrl('https.ru'):", normalizeUrl('https.ru'));
+/*
+ * Возвращает копию массива, но уже без повторяющихся элементов.
+ *
+ * @param {Array} arr - массив.
+ * @return {Array} копию arr без повторений.
+*/
+export function unique(arr) {
 
-console.log("checkSpam('_XxX_'):", checkSpam('_XxX_'));
-console.log("checkSpam('__Viagra__'):", checkSpam('__Viagra__'));
-console.log("checkSpam('test'):", checkSpam('test'));
+    let set = new Set();
+    for (let i of arr) {
+        set.add(i);
+    }
 
-console.log("truncate('Мама мыла раму.', 100):", truncate('Мама мыла раму.', 100));
-console.log("truncate('Мама мыла раму.', 10):", truncate('Мама мыла раму.', 10));
+    let arruni = [];
+    for (let i of set) {
+        arruni.push(i);
+    }
+    
+    return arruni;
 
-console.log("camelize('var-test-text'):", camelize('var-test-text'));
-
-console.log("arrReverseSorted([1, 3, 22]):", arrReverseSorted([1, 3, 22]));
-
-console.log("unique([0, 1, 1, 2]):", unique([0, 1, 1, 2]));
-console.log("unique(['a', 'b', 'c', 'c']):", unique(['a', 'b', 'c', 'c']));
+}
